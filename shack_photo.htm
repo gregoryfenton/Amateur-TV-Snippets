@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, 0); 
+            margin: 0;
+            padding: 5px; /* Extra room for the tilt and shadow */
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .polaroid {
+            position: relative;
+            background: #fdfdfd;
+            padding: 0px 0px 45px 15px;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #ccc;
+            display: inline-block;
+            transform: rotate(-1.5deg);
+            width: 320px; /* Matches your desired width */
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #111;
+            display: block;
+        }
+
+        /* HIGH VISIBILITY CLOCK */
+        #digital-clock {
+            position: absolute;
+            bottom: 0px; /* Moved up to stay clear of the white border */
+            right: 0px;
+            
+            /* Amber color: Highest contrast for technical displays */
+            color: #FFB000; 
+            
+            /* Large size */
+            font-size: 2.4em; 
+            font-weight: 900;
+            
+            /* Black Outline + Glow: Makes it readable on ANY background */
+            text-shadow: 
+                3px 3px 0px #000, 
+               -1px -1px 0px #000,  
+                1px -1px 0px #000,
+               -1px  1px 0px #000,
+                0px  0px 15px rgba(0,0,0,1);
+            
+            /* Semi-transparent dark strip behind the numbers for extra safety */
+            background: rgba(0, 0, 0, 0.0);
+            padding: 2px 10px;
+            border-radius: 4px;
+            
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        .caption {
+            width: 100%;
+            text-align: center;
+            color: #111;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="polaroid">
+    <img src="greg_M0ODZ.png" alt="Greg M0ODZ">
+    <div id="digital-clock">00:00:00</div>
+    <div class="caption">Greg M0ODZ</div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('digital-clock').innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+
+</body>
+</html>
