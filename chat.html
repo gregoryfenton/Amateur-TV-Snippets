@@ -5,32 +5,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     
-    <style>
-        body { background-color: rgba(0, 0, 0, 0); margin: 0; padding: 10px; overflow: hidden; font-family: "Segoe UI", Tahoma, sans-serif; }
-        #chat-window {
-            width: 360px; height: 500px;
-            background: rgba(28, 30, 34, 0.9);
-            border: 1px solid #444; border-radius: 8px;
-            display: flex; flex-direction: column;
-            color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        #chat-header {
-            background: #111; color: #FBDE2D; padding: 10px;
-            font-weight: bold; font-size: 13px; border-bottom: 1px solid #333;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        #chat-container { flex-grow: 1; padding: 12px; overflow-y: auto; font-size: 14px; display: flex; flex-direction: column; }
-        .message { margin-bottom: 8px; border-left: 3px solid #FBDE2D; padding-left: 8px; background: rgba(255,255,255,0.03); animation: slideIn 0.2s ease; }
-        .nick { font-weight: bold; color: #FBDE2D; display: block; margin-bottom: 2px; }
-        .text { color: #f0f0f0; word-wrap: break-word; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #555; border-radius: 10px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="chat-window">
-        <div id="chat-header">
+    <div class="widget-window chat-window-size">
+        <div class="widget-header">
             <span id="header-text">Connecting...</span>
             <span id="viewer-count">0 viewers</span>
         </div>

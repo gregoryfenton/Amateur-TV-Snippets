@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="ticker-wrapper">
+        <div id="ticker-text">Initializing...</div>
+    </div>
+
+    <script>
+        const textElement = document.getElementById('ticker-text');
+        const fileUrl = 'message.txt';
+        const scrollSpeed = 150; 
+
+        let currentMessage = "";
+        let nextMessage = "";
+
+        function parseText(rawText) {
+            const parts = rawText.split(/(~~n~~|~~b~~|~~c~~)/g);
+            let htmlOutput = "";
+            let currentClass = "t-normal";
+            parts.forEach(part => {
+                if (part === "~~n~~") currentClass = "t-normal";
+                else if (part === "~~b~~") currentClass = "t-bold";
+                else if (part === "~~c~~") currentClass = "t-color";
+                else if (part.trim() !== "") htmlOutput += `<span class="${currentClass}">${part}</span>`;
+            });
+            return htmlOutput;
+        }
+
+        async function checkFile() {
+            try {
+                const response = await fetch(`${fileUrl}?t=${Date.now()}`);
+                if (response.ok) {
+                    const text = await response.text();
+                    const cleanText = text.trim();
+                    if (currentMessage === "") { currentMessage = cleanText; startScroll(currentMessage); }
+                    else { nextMessage = cleanText; }
+                }
+            } catch (err) {}
+        }
+
+        function startScroll(text) {
+            textElement.innerHTML = parseText(text);
+            const textWidth = textElement.offsetWidth;
+            const containerWidth = 956; 
+            const duration = (textWidth + containerWidth) / scrollSpeed;
+            
+            textElement.style.transition = 'none';
+            textElement.style.transform = `translateX(${containerWidth}px)`; 
+            textElement.offsetHeight; 
+
+            textElement.style.transition = `transform ${duration}s linear`;
+            textElement.style.transform = `translateX(-${textWidth}px)`;
+        }
+
+        textElement.addEventListener('transitionend', () => {
+            if (nextMessage && nextMessage !== currentMessage) currentMessage = nextMessage;
+            startScroll(currentMessage);
+        });
+
+        setInterval(checkFile, 3000);
+        checkFile();
+    </script>
+</body>
+</html>

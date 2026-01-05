@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Profile Header</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header-box">
+        <div id="header-text">LOADING PROFILE DATA...</div>
+    </div>
+
+    <script>
+        const textElement = document.getElementById('header-text');
+        let currentContent = "";
+
+        // 1. EXTRACT PROFILE
+        // Example: "header_GB3EY.html" -> "GB3EY"
+        const filename = window.location.pathname.split('/').pop();
+        const profile = filename.includes('_') ? filename.split('_')[1].split('.')[0] : "DEFAULT";
+
+        // 2. CONSTRUCT FILE PATH
+        // This will look for "header_GB3EY.txt" or "header_M0ODZ.txt"
+        const fileUrl = `header_${profile}.txt`;
+
+        async function checkHeader() {
+            try {
+                // Fetch the profile-specific text file
+                const response = await fetch(`${fileUrl}?t=${Date.now()}`);
+                if (response.ok) {
+                    const text = await response.text();
+                    const cleanText = text.trim();
+                    if (cleanText !== currentContent) {
+                        currentContent = cleanText;
+                        textElement.innerText = currentContent;
+                    }
+                } else {
+                    textElement.innerText = `MISSING: ${fileUrl}`;
+                }
+            } catch (err) { 
+                console.error("Header fetch failed:", err); 
+            }
+        }
+
+        setInterval(checkHeader, 1000);
+        checkHeader();
+    </script>
+</body>
+</html>

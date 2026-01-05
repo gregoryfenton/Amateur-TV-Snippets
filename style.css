@@ -1,0 +1,118 @@
+/* --- SHARED BRANDING --- */
+:root {
+    --theme-color: #FFB000;
+    --flair-color: #ffcc00;
+    --accent-yellow: #FBDE2D;
+    --bg-dark: rgba(28, 30, 34, 0.9);
+    --bg-header: #111;
+    --bg-transparent: rgba(0, 0, 0, 0);
+    --bg-ticker: rgba(15, 15, 15, 0.9);
+    --border-subtle: 1px solid #444;
+    --border-accent: 3px solid var(--accent-yellow);
+    --font-monotech: 'Courier New', Courier, monospace;
+}
+
+* { overflow: hidden !important; box-sizing: border-box; }
+
+body { 
+    background-color: var(--bg-transparent); 
+    margin: 0; padding: 0; 
+    font-family: var(--font-monotech);
+    color: white;
+}
+
+/* WIDGET DIMENSIONS */
+.chat-window-size { width: 480px; height: 412px; }
+.log-window-size  { width: 480px; height: 392px; }
+.qr-window-size   { width: 480px; height: 320px; }
+
+.widget-window {
+    background: var(--bg-dark);
+    border: var(--border-subtle);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
+    background: var(--bg-header);
+    color: var(--accent-yellow); 
+    padding: 8px 12px;      
+    font-size: 18px;   
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+}
+
+/* FIXED: Standardized Title ID for all widgets */
+#widget-title, .widget-header span {
+    font-size: 18px !important;
+    font-family: var(--font-monotech);
+}
+
+/* CONTAINERS */
+#chat-container, #history-container {
+    display: flex;
+    flex-direction: column;
+    white-space: pre-wrap;
+}
+
+#chat-container { height: 370px; justify-content: flex-end; }
+#history-container { height: 350px; justify-content: flex-start; }
+
+.message, .log-entry {
+    margin-bottom: 6px;
+    border-left: var(--border-accent);
+    padding-left: 8px;
+    background: rgba(255, 255, 255, 0.03);
+}
+.message { flex-shrink: 0; }
+.nick { font-weight: bold; color: var(--accent-yellow); }
+
+/* TICKER - NO FLEX */
+#ticker-wrapper {
+    width: 956px;
+    height: 64px;
+    background: var(--bg-ticker) !important;
+    border-left: 10px solid var(--flair-color);
+    border-top: var(--border-subtle);
+    border-bottom: var(--border-subtle);
+    text-align: center;
+}
+
+#ticker-text {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    line-height: 64px;
+    color: #ffffff;
+    font-size: 48px;
+    line-height: 64px; 
+}
+.t-color { color: var(--flair-color); font-weight: bold; }
+
+/* MAIN HEADER */
+#header-box {
+    background: var(--bg-dark) !important;
+    border-left: 10px solid var(--flair-color);
+    //padding: 20px 40px;
+    display: inline-block;
+    text-align: center; 
+    min-width: 1200px;
+}
+
+#header-text {
+    font-size: 52px !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* QR CODE */
+#qr-wrapper {
+    background: white; padding: 15px; margin: auto; 
+    border-radius: 6px; display: flex; flex-direction: column; align-items: center;
+}
+#string-display { color: #111; font-size: 14px; font-weight: bold; margin-top: 8px; text-align: center; max-width: 260px; word-break: break-all; }

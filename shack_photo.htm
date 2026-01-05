@@ -2,94 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>M0ODZ Polaroid</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            background-color: rgba(0, 0, 0, 0); 
-            margin: 0;
-            padding: 5px; /* Extra room for the tilt and shadow */
-            overflow: hidden;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            font-family: 'Courier New', Courier, monospace;
+        /* Unique Polaroid Layout */
+        body { 
+            padding: 0 0 25px 25px; 
+            display: flex; 
         }
 
         .polaroid {
             position: relative;
             background: #fdfdfd;
-            padding: 0px 0px 45px 15px;
+            padding: 15px 15px 75px 15px; 
             box-shadow: 10px 10px 30px rgba(0,0,0,0.8);
             border: 1px solid #ccc;
             display: inline-block;
             transform: rotate(-1.5deg);
-            width: 320px; /* Matches your desired width */
+            //width: 320px;
         }
 
-        .polaroid img {
+        .image-area {
             width: 100%;
-            height: auto;
             border: 2px solid #111;
-            display: block;
+            background: #000;
         }
 
-        /* HIGH VISIBILITY CLOCK */
+        .image-area img { width: 100%; display: block; }
+
+        #live-indicator {
+            position: absolute;
+            top: 4px; right: 15px;
+            background: rgba(200, 0, 0, 0.9);
+            color: white;
+            padding: 1px 6px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            border: 1px solid #fff;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* Clocks now pull the Yellow color from your CSS Variables */
         #digital-clock {
             position: absolute;
-            bottom: 0px; /* Moved up to stay clear of the white border */
-            right: 0px;
-            
-            /* Amber color: Highest contrast for technical displays */
-            color: #FFB000; 
-            
-            /* Large size */
-            font-size: 2.4em; 
+            bottom: 12px; left: 0; right: 0;
+            text-align: center;
+            color: var(--accent-yellow); 
+            font-size: 1.5em; 
             font-weight: 900;
-            
-            /* Black Outline + Glow: Makes it readable on ANY background */
-            text-shadow: 
-                3px 3px 0px #000, 
-               -1px -1px 0px #000,  
-                1px -1px 0px #000,
-               -1px  1px 0px #000,
-                0px  0px 15px rgba(0,0,0,1);
-            
-            /* Semi-transparent dark strip behind the numbers for extra safety */
-            background: rgba(0, 0, 0, 0.0);
-            padding: 2px 10px;
-            border-radius: 4px;
-            
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-            z-index: 10;
+            line-height: 1.1;
+            text-shadow: 2px 2px 0px #000;
         }
 
-        .caption {
-            width: 100%;
-            text-align: center;
-            color: #111;
-            font-weight: bold;
-            font-size: 1.5em;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .label { font-size: 0.6em; opacity: 0.8; margin-right: 5px; }
     </style>
 </head>
 <body>
 
 <div class="polaroid">
-    <img src="greg_M0ODZ.png" alt="Greg M0ODZ">
-    <div id="digital-clock">00:00:00</div>
-    <div class="caption">Greg M0ODZ</div>
+    <div id="live-indicator">ON AIR</div>
+    
+    <div class="image-area">
+        <img src="greg_M0ODZ.png" alt="Greg M0ODZ">
+    </div>
+    
+    <div id="digital-clock">
+        <div id="lcl-clock"><span class="label">LCL</span>00:00:00</div>
+        <div id="utc-clock"><span class="label">UTC</span>00:00:00</div>
+    </div>
 </div>
 
 <script>
     function updateClock() {
         const now = new Date();
-        const h = String(now.getHours()).padStart(2, '0');
-        const m = String(now.getMinutes()).padStart(2, '0');
-        const s = String(now.getSeconds()).padStart(2, '0');
-        document.getElementById('digital-clock').innerText = `${h}:${m}:${s}`;
+        const pad = (n) => String(n).padStart(2, '0');
+        const format = (h, m, s) => `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+        const local = format(now.getHours(), now.getMinutes(), now.getSeconds());
+        const utc = format(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+        document.getElementById('lcl-clock').innerHTML = `<span class="label">LCL</span>${local}`;
+        document.getElementById('utc-clock').innerHTML = `<span class="label">UTC</span>${utc}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
